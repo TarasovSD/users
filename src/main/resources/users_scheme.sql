@@ -1,6 +1,6 @@
 CREATE SEQUENCE cities_id_seq
-    start 1
-    increment 1
+    start with 1
+    increment by 1
     cache 1;
 
 CREATE TABLE IF NOT EXISTS cities
@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS cities
 );
 
 CREATE SEQUENCE hard_skills_id_seq
-    start 1
-    increment 1
+    start with 1
+    increment by 1
     cache 1;
 
 CREATE TABLE IF NOT EXISTS hard_skills
@@ -23,8 +23,8 @@ CREATE TABLE IF NOT EXISTS hard_skills
 );
 
 CREATE SEQUENCE users_id_seq
-    start 1
-    increment 1
+    start with 1
+    increment by 1
     cache 1;
 
 CREATE TABLE IF NOT EXISTS users
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS users_hard_skills
 );
 
 CREATE SEQUENCE subscriptions_id_seq
-    start 1
-    increment 1
+    start with 1
+    increment by 1
     cache 1;
 
 CREATE TABLE IF NOT EXISTS subscriptions
