@@ -1,9 +1,17 @@
 package ru.skillbox.users.entity;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "subscriptions")
+@SQLDelete(sql = "UPDATE subscriptions SET deleted = true WHERE id=?")
+@FilterDef(name = "deletedProductFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedProductFilter", condition = "deleted = :isDeleted")
 public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,6 +20,7 @@ public class Subscription {
     private User subscriber;
     @ManyToOne
     private User respondent;
+    private boolean deleted = Boolean.FALSE;
 
     public Subscription() {
     }

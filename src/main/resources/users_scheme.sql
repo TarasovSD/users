@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS cities
 (
     id   integer           NOT NULL DEFAULT nextval('cities_id_seq'),
     name character varying NOT NULL,
+    deleted boolean,
     CONSTRAINT cities_pk PRIMARY KEY (id)
 );
 
@@ -19,6 +20,7 @@ CREATE TABLE IF NOT EXISTS hard_skills
 (
     id   integer           NOT NULL DEFAULT nextval('hard_skills_id_seq'),
     name character varying NOT NULL,
+    deleted boolean,
     CONSTRAINT hard_skills_pk PRIMARY KEY (id)
 );
 
@@ -41,6 +43,7 @@ CREATE TABLE IF NOT EXISTS users
     nickname    character varying,
     email       character varying NOT NULL,
     phone       character varying NOT NULL,
+    deleted boolean,
     CONSTRAINT users_pk PRIMARY KEY (id),
     CONSTRAINT users_on_cities FOREIGN KEY (city_id) REFERENCES cities (id) ON DELETE RESTRICT
 );
@@ -64,6 +67,7 @@ CREATE TABLE IF NOT EXISTS subscriptions
     id            integer NOT NULL DEFAULT nextval('subscriptions_id_seq'),
     subscriber_id integer NOT NULL,
     respondent_id integer NOT NULL,
+    deleted boolean,
     CONSTRAINT subscriptions_pk PRIMARY KEY (id),
     CONSTRAINT subscriber_on_user_fk FOREIGN KEY (subscriber_id) REFERENCES users (id) ON DELETE CASCADE,
     CONSTRAINT respondent_on_user_fk FOREIGN KEY (respondent_id) REFERENCES users (id) ON DELETE CASCADE

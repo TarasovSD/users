@@ -1,11 +1,19 @@
 package ru.skillbox.users.entity;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
+@FilterDef(name = "deletedProductFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedProductFilter", condition = "deleted = :isDeleted")
 public class User {
 
     @Id
@@ -23,6 +31,7 @@ public class User {
     private String nickname;
     private String email;
     private String phone;
+    private boolean deleted = Boolean.FALSE;
 
     @ManyToMany (mappedBy = "users")
     private Set<HardSkill> hardSkills = new HashSet<>();

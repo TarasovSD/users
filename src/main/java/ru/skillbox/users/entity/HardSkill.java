@@ -1,15 +1,24 @@
 package ru.skillbox.users.entity;
 
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+import org.hibernate.annotations.SQLDelete;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@SQLDelete(sql = "UPDATE hard_skills SET deleted = true WHERE id=?")
+@FilterDef(name = "deletedProductFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
+@Filter(name = "deletedProductFilter", condition = "deleted = :isDeleted")
 public class HardSkill {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String name;
+    private boolean deleted = Boolean.FALSE;
 
     @ManyToMany
     @JoinTable(name = "users_hard_skills",
