@@ -1,19 +1,20 @@
 package ru.skillbox.users.entity;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.type.descriptor.java.BooleanJavaType;
 
-import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
 @SQLDelete(sql = "UPDATE users SET deleted = true WHERE id=?")
-@FilterDef(name = "deletedProductFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
-@Filter(name = "deletedProductFilter", condition = "deleted = :isDeleted")
+@FilterDef(name = "deletedUserFilter", parameters = @ParamDef(name = "isDeleted", type = BooleanJavaType.class))
+@Filter(name = "deletedUserFilter", condition = "deleted = :isDeleted")
 public class User {
 
     @Id
@@ -22,7 +23,8 @@ public class User {
     private String firstName;
     private String lastName;
     private String patronymic;
-    private String gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
     private String birthday;
     @ManyToOne
     private City city;
@@ -33,13 +35,15 @@ public class User {
     private String phone;
     private boolean deleted = Boolean.FALSE;
 
-    @ManyToMany (mappedBy = "users")
+    @ManyToMany(mappedBy = "users")
     private Set<HardSkill> hardSkills = new HashSet<>();
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String patronymic, String gender, String birthday, City city, String link, String description, String nickname, String email, String phone) {
+    public User(Integer id, String firstName, String lastName, String patronymic, Gender gender, String birthday, City city,
+                String link, String description, String nickname, String email, String phone) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.patronymic = patronymic;
@@ -77,6 +81,102 @@ public class User {
 
     public void setHardSkills(Set<HardSkill> hardSkills) {
         this.hardSkills = hardSkills;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public void addHardSkill(HardSkill hardSkill) {

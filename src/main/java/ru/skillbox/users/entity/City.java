@@ -1,17 +1,17 @@
 package ru.skillbox.users.entity;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.ParamDef;
 import org.hibernate.annotations.SQLDelete;
-
-import javax.persistence.*;
+import org.hibernate.type.descriptor.java.BooleanJavaType;
 
 @Entity
 @Table(name = "cities")
 @SQLDelete(sql = "UPDATE cities SET deleted = true WHERE id=?")
-@FilterDef(name = "deletedProductFilter", parameters = @ParamDef(name = "isDeleted", type = "boolean"))
-@Filter(name = "deletedProductFilter", condition = "deleted = :isDeleted")
+@FilterDef(name = "deletedCityFilter", parameters = @ParamDef(name = "isDeleted", type = BooleanJavaType.class))
+@Filter(name = "deletedCityFilter", condition = "deleted = :isDeleted")
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,6 +25,27 @@ public class City {
 
     public City(String name) {
         this.name = name;
+    }
+
+    public City(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
