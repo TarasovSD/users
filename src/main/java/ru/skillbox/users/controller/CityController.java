@@ -20,7 +20,7 @@ public class CityController {
     }
 
     @PostMapping()
-    public String createCity(@RequestBody CityDto cityDto) {
+    public CityDto createCity(@RequestBody CityDto cityDto) {
         logger.info("Запрос на создание нового города отправлен в CityService");
         return cityService.createCity(CityMapper.toCity(cityDto));
     }
@@ -38,7 +38,7 @@ public class CityController {
     }
 
     @PutMapping("/{cityId}")
-    public String updateCity(@RequestBody CityDto cityDto, @PathVariable Integer cityId) {
+    public CityDto updateCity(@RequestBody CityDto cityDto, @PathVariable Integer cityId) {
         logger.info("Запрос на обновление города с id = {} отправлен в CityService", cityId);
         return cityService.updateCity(cityDto, cityId);
     }

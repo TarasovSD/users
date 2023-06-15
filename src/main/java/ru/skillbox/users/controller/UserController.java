@@ -20,7 +20,7 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser(@RequestBody UserDto userDto) {
+    public UserFullDto createUser(@RequestBody UserDto userDto) {
         logger.info("Запрос на создание нового пользователя отправлен в UserService");
         return userService.createUser(userDto);
     }
@@ -38,22 +38,22 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    public String updateUser(@RequestBody UserDto userDto, @PathVariable Integer userId) {
+    public UserFullDto updateUser(@RequestBody UserDto userDto, @PathVariable Integer userId) {
         logger.info("Запрос на обновление пользователя с id = {} отправлен в UserService", userId);
         return userService.updateUser(userDto, userId);
     }
 
     @PostMapping("/{subscriberId}/subscribe/{respondentId}")
-    public String subscribeToUser(@PathVariable Integer subscriberId, @PathVariable Integer respondentId) {
+    public void subscribeToUser(@PathVariable Integer subscriberId, @PathVariable Integer respondentId) {
         logger.info("Запрос на подписку пользователем с id = {} на пользователя с id = {} отправлен в UserService",
                 subscriberId, respondentId);
-        return userService.subscribeToUser(subscriberId, respondentId);
+        userService.subscribeToUser(subscriberId, respondentId);
     }
 
     @DeleteMapping("/{subscriberId}/unsubscribe/{respondentId}")
-    public String unsubscribeToUser(@PathVariable Integer subscriberId, @PathVariable Integer respondentId) {
+    public void unsubscribeToUser(@PathVariable Integer subscriberId, @PathVariable Integer respondentId) {
         logger.info("Запрос на отдписку пользователем с id = {} от пользователя с id = {} отправлен в UserService",
                 subscriberId, respondentId);
-        return userService.unsubscribeToUser(subscriberId, respondentId);
+        userService.unsubscribeToUser(subscriberId, respondentId);
     }
 }

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import ru.skillbox.users.dto.UserDto;
 import ru.skillbox.users.dto.UserFullDto;
 import ru.skillbox.users.entity.City;
-import ru.skillbox.users.entity.Gender;
 import ru.skillbox.users.entity.Subscription;
 import ru.skillbox.users.entity.User;
 import ru.skillbox.users.exception.CityNotFoundException;
@@ -16,6 +15,7 @@ import ru.skillbox.users.repository.SubscriptionRepository;
 import ru.skillbox.users.repository.UserRepository;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -32,15 +32,12 @@ public class UserService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
-    public String createUser(UserDto userDto) {
+    public UserFullDto createUser(UserDto userDto) {
         Integer cityId = userDto.cityId();
         City city = cityRepository.findById(cityId).orElseThrow(() ->
                 new CityNotFoundException(String.format("Город с id = %s не найден", cityId)));
         User user = UserMapper.toUser(userDto, city);
-        User createdUser = userRepository.save(user);
-        return String.format("Пользователь %s c id = %s сохранен в базу данных",
-                createdUser.getLastName(),
-                createdUser.getId());
+        return UserMapper.toUserFullDto(userRepository.save(user));
     }
 
     public UserFullDto getUser(Integer userId) {
@@ -55,7 +52,7 @@ public class UserService {
         userRepository.delete(userToDelete);
     }
 
-    public String updateUser(UserDto userDto, Integer userId) {
+    public UserFullDto updateUser(UserDto userDto, Integer userId) {
         if (!Objects.equals(userDto.id(), userId)) {
             throw new UserNotFoundException(String.format("Пользователь с id = %s не найден", userDto.id()));
         }
@@ -63,73 +60,57 @@ public class UserService {
         User userToUpdate = userRepository.findById(userId).orElseThrow(() ->
                 new UserNotFoundException(String.format("Пользователь с id = %s не найден", userId)));
 
-        if (userDto.firstName() != null) {
-            userToUpdate.setFirstName(userDto.firstName());
-        }
+        Optional.ofNullable(userDto.firstName())
+                .ifPresent(userToUpdate::setFirstName);
 
-        if (userDto.lastName() != null) {
-            userToUpdate.setLastName(userDto.lastName());
-        }
+        Optional.ofNullable(userDto.lastName())
+                .ifPresent(userToUpdate::setLastName);
 
-        if (userDto.patronymic() != null) {
-            userToUpdate.setPatronymic(userDto.patronymic());
-        }
+        Optional.ofNullable(userDto.patronymic())
+                .ifPresent(userToUpdate::setPatronymic);
 
-        if (userDto.gender() != null) {
-            if (userDto.gender().equals(Gender.MALE)) {
-                userToUpdate.setGender(Gender.MALE);
-            }
-            if (userDto.gender().equals(Gender.FEMALE)) {
-                userToUpdate.setGender(Gender.FEMALE);
-            }
-        }
+        Optional.ofNullable(userDto.gender())
+                .ifPresent(userToUpdate::setGender);
 
-        if (userDto.birthday() != null) {
-            userToUpdate.setBirthday(userDto.birthday());
-        }
+        Optional.ofNullable(userDto.birthday())
+                .ifPresent(userToUpdate::setBirthday);
 
-        if (userDto.cityId() != null) {
-            City city = cityRepository.findById(userDto.cityId()).orElseThrow(() ->
-                    new CityNotFoundException(String.format("Город с id = %s не найден", userDto.cityId())));
-            userToUpdate.setCity(city);
-        }
+        Optional.ofNullable(cityRepository.findById(userDto.cityId()))
+                .ifPresent(city -> userToUpdate.setCity(city.orElseThrow(() ->
+                        new CityNotFoundException(String.format("Город с id = %s не найден", userDto.cityId())))));
 
-        if (userDto.link() != null) {
-            userToUpdate.setLink(userDto.link());
-        }
+        Optional.ofNullable(userDto.link())
+                .ifPresent(userToUpdate::setLink);
 
-        if (userDto.description() != null) {
-            userToUpdate.setDescription(userDto.description());
-        }
+        Optional.ofNullable(userDto.description())
+                .ifPresent(userToUpdate::setDescription);
 
-        if (userDto.nickname() != null) {
-            userToUpdate.setNickname(userDto.nickname());
-        }
+        Optional.ofNullable(userDto.nickname())
+                .ifPresent(userToUpdate::setNickname);
 
-        if (userDto.email() != null) {
-            userToUpdate.setEmail(userDto.email());
-        }
+        Optional.ofNullable(userDto.email())
+                .ifPresent(userToUpdate::setEmail);
 
         if (userDto.phone() != null) {
             userToUpdate.setPhone(userDto.phone());
         }
 
-        userRepository.save(userToUpdate);
+        Optional.ofNullable(userDto.phone())
+                .ifPresent(userToUpdate::setPhone);
 
-        return String.format("Пользователь c id = %s обновлен", userId);
+        return UserMapper.toUserFullDto(userRepository.save(userToUpdate));
     }
 
-    public String subscribeToUser(Integer subscriberId, Integer respondentId) {
+    public void subscribeToUser(Integer subscriberId, Integer respondentId) {
         User subscriber = userRepository.findById(subscriberId).orElseThrow(() ->
                 new UserNotFoundException(String.format("Пользователь (подписчик) с id = %s не найден", subscriberId)));
         User respondent = userRepository.findById(respondentId).orElseThrow(() ->
                 new UserNotFoundException(String.format("Пользователь (респондент) с id = %s не найден", respondentId)));
         Subscription subscriptionForSave = new Subscription(subscriber, respondent);
         subscriptionRepository.save(subscriptionForSave);
-        return String.format("Пользователь с id = %s подписался на пользователя с id = %s", subscriberId, respondentId);
     }
 
-    public String unsubscribeToUser(Integer subscriberId, Integer respondentId) {
+    public void unsubscribeToUser(Integer subscriberId, Integer respondentId) {
         User subscriber = userRepository.findById(subscriberId).orElseThrow(() ->
                 new UserNotFoundException(String.format("Пользователь (подписчик) с id = %s не найден", subscriberId)));
         User respondent = userRepository.findById(respondentId).orElseThrow(() ->
@@ -138,7 +119,5 @@ public class UserService {
                 .orElseThrow(() -> new SubscriptionNotFoundException(String.format("Пользователь с id = %s не " +
                         "подписан на пользователя с id = %s", subscriberId, respondentId)));
         subscriptionRepository.delete(subscriptionForDelete);
-        return String.format("Пользователь с id = %s больше не подписан на пользователя с id = %s",
-                subscriberId, respondentId);
     }
 }
