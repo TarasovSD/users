@@ -8,6 +8,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.type.descriptor.java.BooleanJavaType;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -73,6 +74,18 @@ public class User {
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User user)) return false;
+        return deleted == user.deleted && Objects.equals(getId(), user.getId()) && Objects.equals(getFirstName(), user.getFirstName()) && Objects.equals(getLastName(), user.getLastName()) && Objects.equals(getPatronymic(), user.getPatronymic()) && getGender() == user.getGender() && Objects.equals(getBirthday(), user.getBirthday()) && Objects.equals(getCity(), user.getCity()) && Objects.equals(getLink(), user.getLink()) && Objects.equals(getDescription(), user.getDescription()) && Objects.equals(getNickname(), user.getNickname()) && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPhone(), user.getPhone()) && Objects.equals(getHardSkills(), user.getHardSkills());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getFirstName(), getLastName(), getPatronymic(), getGender(), getBirthday(), getCity(), getLink(), getDescription(), getNickname(), getEmail(), getPhone(), deleted, getHardSkills());
     }
 
     public Set<HardSkill> getHardSkills() {

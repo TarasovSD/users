@@ -52,8 +52,8 @@ public class UserController {
 
     @DeleteMapping("/{subscriberId}/unsubscribe/{respondentId}")
     public void unsubscribeToUser(@PathVariable Integer subscriberId, @PathVariable Integer respondentId) {
-        logger.info("Запрос на отдписку пользователем с id = {} от пользователя с id = {} отправлен в UserService",
+        logger.info("Запрос на отписку пользователем с id = {} от пользователя с id = {} отправлен в UserService",
                 subscriberId, respondentId);
-        userService.unsubscribeToUser(subscriberId, respondentId);
+        userService.unsubscribeFromUser(subscriberId, respondentId);
     }
 }

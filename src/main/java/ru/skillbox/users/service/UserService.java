@@ -110,7 +110,7 @@ public class UserService {
         subscriptionRepository.save(subscriptionForSave);
     }
 
-    public void unsubscribeToUser(Integer subscriberId, Integer respondentId) {
+    public void unsubscribeFromUser(Integer subscriberId, Integer respondentId) {
         User subscriber = userRepository.findById(subscriberId).orElseThrow(() ->
                 new UserNotFoundException(String.format("Пользователь (подписчик) с id = %s не найден", subscriberId)));
         User respondent = userRepository.findById(respondentId).orElseThrow(() ->
