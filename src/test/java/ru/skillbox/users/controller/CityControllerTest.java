@@ -52,7 +52,7 @@ class CityControllerTest {
     }
 
     @Test
-    void createCity() throws Exception {
+    public void createCity() throws Exception {
         when(cityService.createCity(any())).thenReturn(createdCityDto);
 
         ResultActions resultActions = mockMvc.perform(post("/cities")
@@ -68,7 +68,7 @@ class CityControllerTest {
     }
 
     @Test
-    void getCity() throws Exception {
+    private void getCity() throws Exception {
         when(cityService.getCity(1)).thenReturn(createdCityDto);
 
         ResultActions resultActions = mockMvc.perform(get("/cities/1")
@@ -83,7 +83,7 @@ class CityControllerTest {
     }
 
     @Test
-    void deleteCity() throws Exception {
+    public void deleteCity() throws Exception {
         ResultActions resultActions = mockMvc.perform(delete("/cities/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -94,7 +94,7 @@ class CityControllerTest {
     }
 
     @Test
-    void updateCity() throws Exception {
+    public void updateCity() throws Exception {
         when(cityService.updateCity(cityDto, 1)).thenReturn(updatedCityDto);
 
         ResultActions resultActions = mockMvc.perform(put("/cities/1")

@@ -14,8 +14,10 @@ import org.hibernate.type.descriptor.java.BooleanJavaType;
 @Filter(name = "deletedCityFilter", condition = "deleted = :isDeleted")
 public class City {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
+    @Column(name = "name")
     private String name;
 
     private boolean deleted = Boolean.FALSE;

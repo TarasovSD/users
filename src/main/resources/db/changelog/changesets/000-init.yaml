@@ -1,0 +1,215 @@
+databaseChangeLog:
+  - changeSet:
+      id: 000-1
+      author: Sergey
+      changes:
+        - createTable:
+            tableName: cities
+            columns:
+              - column:
+                  name: id
+                  autoIncrement: true
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: deleted
+                  type: boolean
+  - changeSet:
+      id: 000-2
+      author: Sergey
+      changes:
+        - createTable:
+            tableName: hard_skills
+            columns:
+              - column:
+                  name: id
+                  autoIncrement: true
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                    name: name
+                    type: varchar
+                    constraints:
+                      nullable: false
+              - column:
+                    name: deleted
+                    type: boolean
+  - changeSet:
+      id: 000-3
+      author: Sergey
+      changes:
+        - createTable:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  autoIncrement: true
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: first_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: patronymic
+                  type: varchar
+              - column:
+                  name: gender
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: birthday
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: city_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: link
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: varchar
+              - column:
+                  name: nickname
+                  type: varchar
+              - column:
+                  name: email
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: phone
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: deleted
+                  type: boolean
+  - changeSet:
+      id: 000-4
+      author: Sergey
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: users_on_cities
+            baseTableName: users
+            baseColumnNames: city_id
+            referencedTableName: cities
+            referencedColumnNames: id
+            onDelete: RESTRICT
+  - changeSet:
+      id: 000-5
+      author: Sergey
+      changes:
+        - createTable:
+            tableName: users_hard_skills
+            columns:
+              - column:
+                  name: user_id
+                  autoIncrement: true
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: users_hard_skills_pk
+                    nullable: false
+              - column:
+                  name: hard_skill_id
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: users_hard_skills_pk
+                    nullable: false
+  - changeSet:
+      id: 000-6
+      author: Sergey
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: user_id_on_users_fk
+            baseTableName: users_hard_skills
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE
+  - changeSet:
+      id: 000-7
+      author: Sergey
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: hard_skill_id_on_hard_skills_fk
+            baseTableName: users_hard_skills
+            baseColumnNames: hard_skill_id
+            referencedTableName: hard_skills
+            referencedColumnNames: id
+            onDelete: CASCADE
+  - changeSet:
+      id: 000-8
+      author: Sergey
+      changes:
+        - createTable:
+            tableName: subscriptions
+            columns:
+              - column:
+                  name: id
+                  autoIncrement: true
+                  type: int
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: subscriber_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: respondent_id
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: deleted
+                  type: boolean
+  - changeSet:
+      id: 000-9
+      author: Sergey
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: subscriber_on_user_fk
+            baseTableName: subscriptions
+            baseColumnNames: subscriber_id
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE
+  - changeSet:
+      id: 000-10
+      author: Sergey
+      changes:
+        - addForeignKeyConstraint:
+            constraintName: respondent_on_user_fk
+            baseTableName: subscriptions
+            baseColumnNames: respondent_id
+            referencedTableName: users
+            referencedColumnNames: id
+            onDelete: CASCADE

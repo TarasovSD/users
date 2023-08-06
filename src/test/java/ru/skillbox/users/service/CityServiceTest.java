@@ -36,7 +36,7 @@ class CityServiceTest {
     }
 
     @Test
-    void createCity() {
+    public void createCity() {
         Mockito.when(cityRepository.save(cityForSave)).thenReturn(city);
 
         CityDto cityForCheck = cityService.createCity(cityForSave);
@@ -48,7 +48,7 @@ class CityServiceTest {
     }
 
     @Test
-    void getCity() {
+    public void getCity() {
         Mockito.when(cityRepository.findById(1)).thenReturn(Optional.ofNullable(city));
 
         CityDto cityForCheck = cityService.getCity(1);
@@ -64,7 +64,7 @@ class CityServiceTest {
     }
 
     @Test
-    void deleteCity() {
+    public void deleteCity() {
         Mockito.when(cityRepository.findById(1)).thenReturn(Optional.ofNullable(city));
 
         cityService.deleteCity(1);
@@ -81,7 +81,7 @@ class CityServiceTest {
     }
 
     @Test
-    void updateCity() {
+    public void updateCity() {
         CityDto citiDtoForUpdate = new CityDto(1, "Saint Petersburg");
         City updatedCity = new City(1, "Saint Petersburg");
 

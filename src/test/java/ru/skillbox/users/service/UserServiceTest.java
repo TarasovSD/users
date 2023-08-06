@@ -95,7 +95,7 @@ class UserServiceTest {
     }
 
     @Test
-    void createUser() {
+    public void createUser() {
         User userForSave = UserMapper.toUser(userDtoForSave, city);
 
         Mockito.when(cityRepository.findById(1)).thenReturn(Optional.of(city));
@@ -128,7 +128,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUser() {
+    public void getUser() {
         Mockito.when(userRepository.findById(anyInt())).thenReturn(Optional.ofNullable(savedUser1));
 
         UserFullDto userFullDtoForCheck = userService.getUser(1);
@@ -155,7 +155,7 @@ class UserServiceTest {
     }
 
     @Test
-    void deleteUser() {
+    public void deleteUser() {
         Mockito.when(userRepository.findById(anyInt())).thenReturn(Optional.ofNullable(savedUser1));
         userService.deleteUser(savedUser1.getId());
 
@@ -171,7 +171,7 @@ class UserServiceTest {
     }
 
     @Test
-    void updateUser() {
+    public void updateUser() {
         UserDto userDtoForUpdate = new UserDto(1,
                 "UpdatedFirst",
                 "UpdatedLast",
@@ -215,7 +215,7 @@ class UserServiceTest {
     }
 
     @Test
-    void subscribeToUser() {
+    public void subscribeToUser() {
         Mockito.when(userRepository.findById(2)).thenReturn(Optional.ofNullable(user2));
         Mockito.when(userRepository.findById(3)).thenReturn(Optional.ofNullable(user3));
         Mockito.when(subscriptionRepository.save(any())).thenReturn(new Subscription(user2, user3));
@@ -237,7 +237,7 @@ class UserServiceTest {
     }
 
     @Test
-    void unsubscribeToUser() {
+    public void unsubscribeToUser() {
         Mockito.when(userRepository.findById(2)).thenReturn(Optional.ofNullable(user2));
         Mockito.when(userRepository.findById(3)).thenReturn(Optional.ofNullable(user3));
         Mockito.when(subscriptionRepository.findBySubscriberAndRespondent(user2, user3))

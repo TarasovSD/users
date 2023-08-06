@@ -109,7 +109,7 @@ class UserControllerTest {
     }
 
     @Test
-    void createUser() throws Exception {
+    public void createUser() throws Exception {
         when(userService.createUser(userDto)).thenReturn(userFullDto);
 
         ResultActions resultActions = mockMvc.perform(post("/users")
@@ -137,7 +137,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getUser() throws Exception {
+    public void getUser() throws Exception {
         when(userService.getUser(1)).thenReturn(userFullDto);
 
         ResultActions resultActions = mockMvc.perform(get("/users/1")
@@ -163,7 +163,7 @@ class UserControllerTest {
     }
 
     @Test
-    void deleteUser() throws Exception {
+    public void deleteUser() throws Exception {
         ResultActions resultActions = mockMvc.perform(delete("/users/1")
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -174,7 +174,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUser() throws Exception {
+    public void updateUser() throws Exception {
         when(userService.updateUser(updatedUserDto, 1))
                 .thenReturn(updatedUserFullDto);
 
@@ -203,7 +203,7 @@ class UserControllerTest {
     }
 
     @Test
-    void subscribeToUser() throws Exception {
+    public void subscribeToUser() throws Exception {
         ResultActions resultActions = mockMvc.perform(post("/users/1/subscribe/2")
                 .contentType(MediaType.APPLICATION_JSON));
 
@@ -214,7 +214,7 @@ class UserControllerTest {
     }
 
     @Test
-    void unsubscribeToUser() throws Exception {
+    public void unsubscribeToUser() throws Exception {
         ResultActions resultActions = mockMvc.perform(delete("/users/1/unsubscribe/2")
                 .contentType(MediaType.APPLICATION_JSON));
 

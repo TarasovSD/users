@@ -17,7 +17,7 @@ import java.util.Set;
 @Filter(name = "deletedSkillFilter", condition = "deleted = :isDeleted")
 public class HardSkill {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private boolean deleted = Boolean.FALSE;

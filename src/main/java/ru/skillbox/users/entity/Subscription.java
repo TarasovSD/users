@@ -14,7 +14,7 @@ import org.hibernate.type.descriptor.java.BooleanJavaType;
 @Filter(name = "deletedSubscriptionFilter", condition = "deleted = :isDeleted")
 public class Subscription {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @ManyToOne
     private User subscriber;

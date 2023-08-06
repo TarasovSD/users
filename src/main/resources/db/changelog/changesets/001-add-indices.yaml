@@ -1,0 +1,73 @@
+databaseChangeLog:
+  - changeSet:
+      id: 001-1
+      author: Sergey
+      changes:
+        - createIndex:
+            tableName: users
+            indexName: i_user_gender
+            columns:
+              - column:
+                  name: gender
+  - changeSet:
+      id: 001-2
+      author: Sergey
+      changes:
+        - createIndex:
+            tableName: users
+            indexName: i_user_city
+            columns:
+              - column:
+                  name: city_id
+  - changeSet:
+      id: 001-3
+      author: Sergey
+      changes:
+        - createIndex:
+            tableName: users
+            indexName: i_user_gender_and_city
+            columns:
+              - column:
+                  name: gender
+              - column:
+                  name: city_id
+  - changeSet:
+      id: 001-4
+      author: Sergey
+      changes:
+        - createIndex:
+            tableName: users_hard_skills
+            indexName: i_users_hard_skills_user_id
+            columns:
+              - column:
+                  name: user_id
+  - changeSet:
+      id: 001-5
+      author: Sergey
+      changes:
+        - createIndex:
+            tableName: users_hard_skills
+            indexName: i_users_hard_skills_hard_skill_id
+            columns:
+              - column:
+                  name: hard_skill_id
+  - changeSet:
+      id: 001-6
+      author: Sergey
+      changes:
+        - createIndex:
+            tableName: subscriptions
+            indexName: i_subscriptions_subscriber_id
+            columns:
+              - column:
+                  name: subscriber_id
+  - changeSet:
+      id: 001-7
+      author: Sergey
+      changes:
+        - createIndex:
+            tableName: subscriptions
+            indexName: i_subscriptions_respondent_id
+            columns:
+              - column:
+                  name: respondent_id
