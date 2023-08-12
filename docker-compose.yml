@@ -1,0 +1,27 @@
+version: '3.1'
+services:
+  users:
+    platform: linux/x86_64
+    image: 'users:latest'
+    build: .
+    container_name: users
+    depends_on:
+      - psql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://psql:5432/users
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    ports:
+      - "8080:8080"
+  psql:
+    image: postgres:14
+    ports:
+      - "5001:5432"
+    volumes:
+      - "/tmp/postgres-data:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_DB=users
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    restart: unless-stopped
