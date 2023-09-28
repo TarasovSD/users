@@ -68,7 +68,7 @@ class CityControllerTest {
     }
 
     @Test
-    private void getCity() throws Exception {
+    public void getCity() throws Exception {
         when(cityService.getCity(1)).thenReturn(createdCityDto);
 
         ResultActions resultActions = mockMvc.perform(get("/cities/1")
